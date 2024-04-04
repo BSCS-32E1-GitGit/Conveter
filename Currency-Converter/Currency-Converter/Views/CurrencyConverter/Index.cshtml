@@ -1,0 +1,81 @@
+﻿@model CurrencyConverterModel
+<link rel="stylesheet" href="~/css/Currency.css" asp-append-version="true" />
+<h1>GitGit</h1>
+@using (Html.BeginForm("Convert", "CurrencyConverter", FormMethod.Post, new { @class = "currency-form" }))
+{
+    @Html.ValidationSummary(true)
+    <div class="form-group">
+        @Html.LabelFor(model => model.Amount)
+        @Html.TextBoxFor(model => model.Amount, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Amount)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.FromCurrency)
+        @Html.DropDownListFor(model => model.FromCurrency, GetCurrencyList(), new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.FromCurrency)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.ToCurrency)
+        @Html.DropDownListFor(model => model.ToCurrency, GetCurrencyList(), new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.ToCurrency)
+    </div>
+    <button type="submit" class="btn btn-primary">Convert</button>
+}
+
+@if (ViewBag.ConvertedAmount != null)
+{
+    <div class="converted-amount">
+        Converted Amount: @string.Format("{0:0.00}", ViewBag.ConvertedAmount)
+    </div>
+}
+
+@functions {
+    private SelectList GetCurrencyList()
+    {
+        // Dictionary mapping currency codes to currency names
+        var currencies = new Dictionary<string, string> {
+            {"USD", "United States Dollar"},
+            {"EUR", "Euro"},
+            {"GBP", "British Pound"},
+            {"JPY", "Japanese Yen"},
+            {"AUD", "Australian Dollar"},
+            {"CAD", "Canadian Dollar"},
+            {"CHF", "Swiss Franc"},
+            {"CNY", "Chinese Yuan"},
+            {"SEK", "Swedish Krona"},
+            {"NZD", "New Zealand Dollar"},
+            {"KRW", "South Korean Won"},
+            {"SGD", "Singapore Dollar"},
+            {"NOK", "Norwegian Krone"},
+            {"MXN", "Mexican Peso"},
+            {"INR", "Indian Rupee"},
+            {"RUB", "Russian Ruble"},
+            {"ZAR", "South African Rand"},
+            {"HKD", "Hong Kong Dollar"},
+            {"BRL", "Brazilian Real"},
+            {"TRY", "Turkish Lira"},
+            {"AED", "United Arab Emirates Dirham"},
+            {"DKK", "Danish Krone"},
+            {"PLN", "Polish Złoty"},
+            {"THB", "Thai Baht"},
+            {"IDR", "Indonesian Rupiah"},
+            {"MYR", "Malaysian Ringgit"},
+            {"HUF", "Hungarian Forint"},
+            {"CZK", "Czech Koruna"},
+            {"ILS", "Israeli New Shekel"},
+            {"PHP", "Philippine Peso"},
+            {"CLP", "Chilean Peso"},
+            {"SAR", "Saudi Riyal"},
+            {"PKR", "Pakistani Rupee"},
+            {"QAR", "Qatari Riyal"},
+            {"TWD", "Taiwan New Dollar"},
+            {"EGP", "Egyptian Pound"},
+            // Add more currencies as needed
+        };
+
+        // Convert dictionary to SelectList
+        var currencyList = new SelectList(currencies, "Key", "Value");
+
+        return currencyList;
+    }
+}
